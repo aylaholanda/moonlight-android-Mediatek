@@ -499,6 +499,15 @@ public class MediaCodecHelper {
         boolean setNewOption = false;
 
         if (tryNumber < 1) {
+            if (Build.HARDWARE.contains("mt6989"))
+            {
+                videoFormat.setInteger("vdec-lowlatency", 1);
+                videoFormat.setInteger("vendor.mtk.lowlatency", 1);
+                videoFormat.setInteger("vendor.mtk.vdec-lowlatency", 1);
+                videoFormat.setInteger(MediaFormat.KEY_OPERATING_RATE, Short.MAX_VALUE);
+                videoFormat.setInteger(MediaFormat.KEY_PRIORITY, 1);
+                return true;
+            }
             // Official Android 11+ low latency option (KEY_LOW_LATENCY).
             videoFormat.setInteger("low-latency", 1);
             setNewOption = true;
